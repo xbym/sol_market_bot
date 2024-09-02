@@ -7,54 +7,84 @@
 </head>
 <body>
     <div class="container">
-        <div class="left-panel">
-            <h1>Meme 代币市值管理机器人</h1>
-            <div>
-                <input type="text" id="contract-address" placeholder="输入合约地址">
-                <button id="update-contract">更新监测合约</button>
-            </div>            
-            <div id="token-info"></div>
-            <div>
-                <h2>当前价格: <span id="current-price">--</span> SOL</h2>
+        <nav class="sidebar">
+            <h1>Meme 代币管理</h1>
+            <ul>
+                <li><a href="#" data-page="dashboard">仪表盘</a></li>
+                <li><a href="#" data-page="wallets">钱包管理</a></li>
+                <li><a href="#" data-page="trading">交易</a></li>
+                <li><a href="#" data-page="settings">设置</a></li>
+            </ul>
+        </nav>
+        <main class="content">
+            <div id="dashboard" class="page active">
+                <h2>仪表盘</h2>
+                <div class="card">
+                    <h3>代币信息</h3>
+                    <div id="token-info"></div>
+                </div>
+                <div class="card">
+                    <h3>价格图表</h3>
+                    <canvas id="price-chart"></canvas>
+                </div>
+                <div class="card">
+                    <h3>当前价格</h3>
+                    <h2 id="current-price">--</h2>
+                </div>
             </div>
-            <canvas id="price-chart"></canvas>
-            <div>
-                <h3>API密钥和钱包管理</h3>
-                <button id="generate-api-key">生成新的API密钥和钱包</button>
-                <input type="number" id="wallet-count" min="1" max="50" value="1">
-                <button id="generate-wallets">批量生成钱包</button>
-                <button id="refresh-balances">刷新余额</button>
-                <button id="clear-wallets">清空批量钱包</button>
-                <button id="export-wallets">导出普通钱包</button>
-                <button id="import-wallets">导入普通钱包</button>
+            <div id="wallets" class="page">
+                <h2>钱包管理</h2>
+                <div class="card">
+                    <h3>API密钥和钱包管理</h3>
+                    <button id="generate-api-key">生成新的API密钥和钱包</button>
+                    <input type="number" id="wallet-count" min="1" max="50" value="1">
+                    <button id="generate-wallets">批量生成钱包</button>
+                    <button id="refresh-balances">刷新余额</button>
+                    <button id="clear-wallets">清空批量钱包</button>
+                    <button id="export-wallets">导出普通钱包</button>
+                    <button id="import-wallets">导入普通钱包</button>
+                </div>
+                <div class="card">
+                    <h3>钱包列表</h3>
+                    <div id="wallet-list"></div>
+                </div>
             </div>
-            <div>
-                <h3>批量交易</h3>
-                <select id="trade-mode">
-                    <option value="buy">买入</option>
-                    <option value="sell">卖出</option>
-                </select>
-                <input type="text" id="trade-token" placeholder="代币合约地址">
-                <input type="number" id="trade-amount" placeholder="数量">
-                <select id="sell-percentage" style="display:none;">
-                    <option value="0.1">10%</option>
-                    <option value="0.25">25%</option>
-                    <option value="0.5">50%</option>
-                    <option value="1">100%</option>
-                </select>
-                <label><input type="checkbox" id="amount-in-sol"> 数量以SOL计</label>
-                <input type="number" id="trade-slippage" placeholder="滑点 (%)">
-                <input type="number" id="trade-priority-fee" placeholder="优先费">
-                <input type="number" id="trade-delay" placeholder="延迟 (秒)">
-                <button id="execute-batch-trade">执行批量交易</button>
+            <div id="trading" class="page">
+                <h2>交易</h2>
+                <div class="card">
+                    <h3>批量交易</h3>
+                    <select id="trade-mode">
+                        <option value="buy">买入</option>
+                        <option value="sell">卖出</option>
+                    </select>
+                    <input type="text" id="trade-token" placeholder="代币合约地址">
+                    <input type="number" id="trade-amount" placeholder="数量">
+                    <select id="sell-percentage" style="display:none;">
+                        <option value="0.1">10%</option>
+                        <option value="0.25">25%</option>
+                        <option value="0.5">50%</option>
+                        <option value="1">100%</option>
+                    </select>
+                    <label><input type="checkbox" id="amount-in-sol"> 数量以SOL计</label>
+                    <input type="number" id="trade-slippage" placeholder="滑点 (%)">
+                    <input type="number" id="trade-priority-fee" placeholder="优先费">
+                    <input type="number" id="trade-delay" placeholder="延迟 (秒)">
+                    <button id="execute-batch-trade">执行批量交易</button>
+                </div>
+                <div class="card">
+                    <h3>交易结果</h3>
+                    <div id="trade-results"></div>
+                </div>
             </div>
-
-            <div id="trade-results"></div>
-        </div>
-        <div class="right-panel">
-            <h3>钱包列表</h3>
-            <div id="wallet-list"></div>
-        </div>
+            <div id="settings" class="page">
+                <h2>设置</h2>
+                <div class="card">
+                    <h3>更新监测合约</h3>
+                    <input type="text" id="contract-address" placeholder="输入合约地址">
+                    <button id="update-contract">更新监测合约</button>
+                </div>
+            </div>
+        </main>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/moment@2.29.1/moment.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>

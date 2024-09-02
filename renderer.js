@@ -11,13 +11,20 @@ async function initialize() {
     const initialPrice = await window.electronAPI.getTokenPrice(currentTokenAddress);
     if (initialPrice) {
         updateChart(initialPrice, new Date());
-        document.getElementById('current-price').textContent = initialPrice.toFixed(10);
+        document.getElementById('current-price').textContent = initialPrice.toFixed(10) + " SOL";
     }
 
-    // 添加更新合约地址的事件监听器
-    document.getElementById('update-contract').addEventListener('click', updateContractAddress);
+    // 添加页面切换事件监听器
+    document.querySelectorAll('.sidebar a').forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const pageId = e.target.getAttribute('data-page');
+            showPage(pageId);
+        });
+    });
 
     // 添加其他事件监听器
+    document.getElementById('update-contract').addEventListener('click', updateContractAddress);
     document.getElementById('generate-api-key').addEventListener('click', generateApiKey);
     document.getElementById('generate-wallets').addEventListener('click', generateWallets);
     document.getElementById('refresh-balances').addEventListener('click', refreshAllWalletBalances);
@@ -25,6 +32,14 @@ async function initialize() {
     document.getElementById('export-wallets').addEventListener('click', exportWallets);
     document.getElementById('import-wallets').addEventListener('click', importWallets);
     document.getElementById('execute-batch-trade').addEventListener('click', executeBatchTrade);
+}
+
+// 显示指定页面
+function showPage(pageId) {
+    document.querySelectorAll('.page').forEach(page => {
+        page.classList.remove('active');
+    });
+    document.getElementById(pageId).classList.add('active');
 }
 
 // 更新合约地址
@@ -42,6 +57,7 @@ async function updateContractAddress() {
         await refreshAllWalletBalances();
     }
 }
+
 // 更新代币信息
 async function updateTokenInfo() {
     try {
@@ -115,7 +131,7 @@ function updateChart(price, timestamp) {
 window.electronAPI.onPriceUpdate((event, data) => {
     if (data.tokenAddress === currentTokenAddress) {
         const price = parseFloat(data.price.toFixed(10));
-        document.getElementById('current-price').textContent = price;
+        document.getElementById('current-price').textContent = price + " SOL";
         updateChart(price, data.timestamp);
     }
 });
